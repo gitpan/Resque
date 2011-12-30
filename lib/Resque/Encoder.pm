@@ -1,6 +1,6 @@
 package Resque::Encoder;
 {
-  $Resque::Encoder::VERSION = '0.03';
+  $Resque::Encoder::VERSION = '0.04';
 }
 use Any::Moose 'Role';
 use JSON;
@@ -20,7 +20,7 @@ Resque::Encoder - Any::Moose role for encoding Resque structures
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 ATTRIBUTES
 

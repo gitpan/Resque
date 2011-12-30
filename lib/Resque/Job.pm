@@ -1,6 +1,6 @@
 package Resque::Job;
 {
-  $Resque::Job::VERSION = '0.03';
+  $Resque::Job::VERSION = '0.04';
 }
 use Any::Moose;
 use Any::Moose '::Util::TypeConstraints';
@@ -12,6 +12,7 @@ use overload '""' => \&stringify;
 
 has resque  => ( 
     is      => 'rw', 
+    handles => [qw/ redis /],
     default => sub { confess "This Resque::Job isn't associated to any Resque system yet!" } 
 );
 
@@ -126,7 +127,7 @@ Resque::Job - Resque job container
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 ATTRIBUTES
 

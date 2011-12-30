@@ -1,6 +1,6 @@
 package Resque;
 {
-  $Resque::VERSION = '0.03';
+  $Resque::VERSION = '0.04';
 }
 use Any::Moose;
 use Any::Moose '::Util::TypeConstraints';
@@ -168,7 +168,7 @@ Resque - Redis-backed library for creating background jobs, placing them on mult
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 SYNOPSIS
 
@@ -232,6 +232,7 @@ A lot more about Resque can be read on the original blog post: L<http://github.c
 =head1 ATTRIBUTES
 
 =head2 redis
+
 Redis instance for this Resque instance.
 Accept a Redis object or string. When a string is
 passed in, it will be used as Redis server argument.
