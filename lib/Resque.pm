@@ -1,6 +1,6 @@
 package Resque;
 {
-  $Resque::VERSION = '0.01';
+  $Resque::VERSION = '0.02';
 }
 use Any::Moose;
 use Any::Moose '::Util::TypeConstraints';
@@ -168,7 +168,7 @@ Resque - Redis-backed library for creating background jobs, placing them on mult
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 SYNOPSIS
 
@@ -237,19 +237,23 @@ Accept a Redis object or string. When a string is
 passed in, it will be used as Redis server argument.
 
 =head2 namespace
+
 This is useful to run multiple queue systems with the same Redis backend.
 
 By default 'resque' is used.
 
 =head2 failures
+
 Failures handler. See L<Resque::Failures>.
 
 =head2 worker
+
 A L<Resque::Worker> on this resque instance.
 
 =head1 METHODS
 
 =head2 push
+
 Pushes a job onto a queue. Queue name should be a string and the
 item should be a Resque::Job object or a hashref containing:
 
@@ -263,15 +267,18 @@ Example
     $resque->push( archive => { class => 'Archive', args => [ 35, 'tar' ] } )
 
 =head2 pop
+
 Pops a job off a queue. Queue name should be a string.
 
 Returns a Resque::Job object.
 
 =head2 size
+
 Returns the size of a queue.
 Queue name should be a string.
 
 =head2 peek
+
 Returns an array of jobs currently queued. 
 
 First argument is queue name and an optional secound and third are
@@ -286,12 +293,15 @@ To get the 3rd page of a 30 item, paginatied list one would use:
     $resque->peek('my_queue', 59, 30)
 
 =head2 queues
+
 Returns an array of all known Resque queues.
 
 =head2 remove_queue
+
 Given a queue name, completely deletes the queue.
 
 =head2 mass_dequeue
+
 Removes all matching jobs from a queue. Expects a hashref 
 with queue name, a class name, and, optionally, args.
 
@@ -325,22 +335,27 @@ memory intensive, depending on the size of your queue, as it loads
 all jobs into an array before processing.
 
 =head2 new_job
+
 Build a Resque::Job object on this system for the given
 hashref(see Resque::Job) or string(payload for object).
 
 =head2 key
+
 Concatenate $self->namespace with the received array of names
 to build a redis key name for this resque instance.
 
 =head2 keys
+
 Returns an array of all known Resque keys in Redis. Redis' KEYS operation
 is O(N) for the keyspace, so be careful - this can be slow for big databases.
 
 =head2 flush_namespace
+
 This method will delete every trace of this Resque system on
 the redis() backend.
 
 =head2 list_range
+
 Does the dirty work of fetching a range of items from a Redis list.
 
 =head1 ATTRIBUTES

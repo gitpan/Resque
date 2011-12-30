@@ -1,6 +1,6 @@
 package Resque::Job;
 {
-  $Resque::Job::VERSION = '0.01';
+  $Resque::Job::VERSION = '0.02';
 }
 use Any::Moose;
 use Any::Moose '::Util::TypeConstraints';
@@ -126,26 +126,31 @@ Resque::Job - Resque job container
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 ATTRIBUTES
 
 =head2 resque
 
 =head2 worker
+
 Worker running this job.
 A new worker will be popped up from resque by default.
 
 =head2 class
+
 Class to be performed by this job.
 
 =head2 queue
+
 Name of the queue this job is or should be.
 
 =head2 args
+
 Array of arguments for this job.
 
 =head2 payload
+
 HashRef representation of the job.
 When passed to constructor, this will restore the job from encoded state.
 When passed as a string this will be coerced using JSON decoder.
@@ -154,11 +159,13 @@ This is read-only.
 =head1 METHODS
 
 =head2 encode
+
 String representation(JSON) to be used on the backend.
 
 =head2 stringify
 
 =head2 queue_from_class
+
 Normalize class name to be used as queue name.
 
     NOTE: future versions will try to get the
@@ -166,14 +173,17 @@ Normalize class name to be used as queue name.
           or $class::queue global variable.
 
 =head2 perform
+
 Load job class and call perform() on it.
 This job objet will be passed as the only argument.
 
 =head2 enqueue
+
 Add this job to resque.
 See Rescue::push().
 
 =head2 dequeue
+
 Remove this job from resque using the most restrictive
 form of Resque::mass_dequeue.
 This method will remove all jobs matching this 
@@ -182,6 +192,7 @@ object queue, class and args.
 See Resque::mass_dequeue() for massive destruction. 
 
 =head2 fail
+
 Store a failure on this job.
 
 =head1 AUTHOR

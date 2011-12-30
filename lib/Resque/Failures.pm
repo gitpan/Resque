@@ -1,6 +1,6 @@
 package Resque::Failures;
 {
-  $Resque::Failures::VERSION = '0.01';
+  $Resque::Failures::VERSION = '0.02';
 }
 use Any::Moose;
 with 'Resque::Encoder';
@@ -91,33 +91,40 @@ Resque::Failures
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 ATTRIBUTES
 
 =head2 resque
+
 Accessor to the Resque object.
 
 =head2 failure_class
+
 Name of a class consuming the role 'Resque::Failure'.
 By default: Resque::Failure::Redis
 
 =head1 METHODS
 
 =head2 throw
+
 create() a failure on the failure_class() and save() it.
 
 =head2 create
+
 Create a new failure on the failure_class() backend.
 
 =head2 count
+
 How many failures was in all the resque system.
 
 =head2 all
+
 Return a range of failures in the same way Resque::peek() does for
 jobs.
 
 =head2 clear
+
 Remove all failures.
 
 =head2 requeue

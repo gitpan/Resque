@@ -36,7 +36,7 @@ resources:
   bugtracker: https://github.com/diegok/resque-perl/issues
   homepage: https://github.com/diegok/resque-perl
   repository: https://github.com/diegok/resque-perl.git
-version: 0.01
+version: 0.02
 x_Dist_Zilla:
   plugins:
     -

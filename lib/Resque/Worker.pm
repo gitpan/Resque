@@ -1,6 +1,6 @@
 package Resque::Worker;
 {
-  $Resque::Worker::VERSION = '0.01';
+  $Resque::Worker::VERSION = '0.02';
 }
 use Any::Moose;
 with 'Resque::Encoder';
@@ -378,30 +378,36 @@ Resque::Worker - Does the hard work of babysitting Resque::Job's
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 ATTRIBUTES
 
 =head2 resque
+
 The L<Resque> object running this worker.
 
 =head2 queues
+
 Queues this worker should fetch jobs from.
 
 =head2 stat
+
 See L<Resque::Stat>.
 
 =head2 id
+
 Unique identifier for the running worker.
 Used to set process status all around.
 
 The worker stringify to this attribute.
 
 =head2 verbose
+
 Set to a true value to make this worker report what's doing while
 on work().
 
 =head2 cant_fork
+
 Set it to a true value to stop this worker from fork jobs. 
 
 By default, the worker will fork the job out and control the 
@@ -409,93 +415,119 @@ children process. This make the worker more resilient to
 memory leaks.
 
 =head2 child
+
 PID of current running child.
 
 =head2 shutdown
+
 When true, this worker will shutdown after finishing current job.
 
 =head2 paused
+
 When true, this worker won't proccess more jobs till false.
 
 =head1 METHODS
 
 =head2 pause
+
 Stop processing jobs after the current one has completed (if we're
 currently running one).
 
 =head2 unpause
+
 Start processing jobs again after a pause
 
 =head2 shutdown_please
+
 Schedule this worker for shutdown. Will finish processing the
 current job.
 
 =head2 shutdown_now
+
 Kill the child and shutdown immediately.
 
 =head2 work
+
 Calling this method will make this worker to start pulling & running jobs
 from queues().
 
 This is the main wheel and will run while shutdown() is false.
 
 =head2 work_tick
+
 Perform() one job and wait till it finish.
 
 =head2 perform
+
 Call perform() on the given Resque::Job capturing and reporting
 any exception.
 
 =head2 kill_child
+
 Kills the forked child immediately, without remorse. The job it
 is processing will not be completed.
 
 =head2 add_queue
+
 Add a queue this worker should listen to.
 
 =head2 del_queue
+
 Stop listening to the given queue.
 
 =head2 next_queue
+
 Circular iterator over queues().
 
 =head2 reserve
+
 Pull the next job to be precessed.
 
 =head2 working_on
+
 Set worker and working status on the given L<Resque::Job>. 
 
 =head2 done_working
+
 Inform the backend this worker has done its current job
 
 =head2 started
+
 What time did this worker start? 
 Returns an instance of DateTime.
+
 TODO: not working in this release. This is returning
 a string used internally.
 
 =head2 set_started
+
 Tell Redis we've started
 
 =head2 processing
+
 Returns a hash explaining the Job we're currently processing, if any.
 
 =head2 state
+
 Returns a string representing the current worker state,
 which can be either working or idle
 
 =head2 is_working
+
 Boolean - true if working, false if not
 
 =head2 is_idle
+
 Boolean - true if idle, false if not
 
 =head2 procline
+
 Given a string, sets the procline ($0) and logs.
 Procline is always in the format of:
     resque-VERSION: STRING
 
 =head2 startup
+
 Helper method called by work() to:
 
   1. register_signal_handlers()
@@ -503,6 +535,7 @@ Helper method called by work() to:
   3. register_worker();
 
 =head2 register_signal_handlers
+
 Registers the various signal handlers a worker responds to.
 
  TERM: Shutdown immediately, stop processing jobs.
@@ -513,6 +546,7 @@ Registers the various signal handlers a worker responds to.
  CONT: Start processing jobs again after a USR2
 
 =head2 prune_dead_workers
+
 Looks for any workers which should be running on this server
 and, if they're not, removes them from Redis.
 
@@ -525,34 +559,43 @@ By checking the current Redis state against the actual
 environment, we can determine if Redis is old and clean it up a bit.
 
 =head2 register_worker
+
 Registers ourself as a worker. Useful when entering the worker
 lifecycle on startup.
 
 =head2 unregister_worker
+
 Unregisters ourself as a worker. Useful when shutting down.
 
 =head2 worker_pids
+
 Returns an Array of string pids of all the other workers on this
 machine. Useful when pruning dead workers on startup.
 
 =head2 log
+
 If verbose() is true, this will print to STDERR.
 
 =head2 processed
+
 Retrieve from L<Resque::Stat> many jobs has done this worker.
 Pass a true argument to increment by one.
 
 =head2 failed
+
 How many failed jobs has this worker seen.
 Pass a true argument to increment by one.
 
 =head2 find
+
 Returns a single worker object. Accepts a string id.
 
 =head2 all
+
 Returns all worker registered on the backend.
 
 =head2 exists
+
 Returns true if the given worker id exists on redis() backend.
 
 =head1 AUTHOR

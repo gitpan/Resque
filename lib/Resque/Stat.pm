@@ -1,6 +1,6 @@
 package Resque::Stat;
 {
-  $Resque::Stat::VERSION = '0.01';
+  $Resque::Stat::VERSION = '0.02';
 }
 use Any::Moose;
 
@@ -46,7 +46,7 @@ Resque::Stat - The stat subsystem. Used to keep track of integer counts.
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 ATTRIBUTES
 
@@ -55,21 +55,25 @@ version 0.01
 =head1 METHODS
 
 =head2 get
+
 Returns the int value of a stat, given a string stat name.
 
 =head2 incr
+
 For a string stat name, increments the stat by one.
 
 Can optionally accept a second int parameter. The stat is then
 incremented by that amount.
 
 =head2 decr
+
 For a string stat name, decrements the stat by one.
 
 Can optionally accept a second int parameter. The stat is then
 decremented by that amount.
 
 =head2 clear
+
 Removes a stat from Redis, effectively setting it to 0.
 
 =head1 AUTHOR
