@@ -15,7 +15,6 @@ lib/Resque/Failures.pm
 lib/Resque/Job.pm
 lib/Resque/Stat.pm
 lib/Resque/Worker.pm
-podweaver.ini
 t/00-load.t
 t/01-namespace.t
 t/02-queue.t
@@ -26,3 +25,4 @@ t/lib/Test/SpawnRedisServer.pm
 t/lib/Test/Worker.pm
 t/release-pod-coverage.t
 t/release-pod-syntax.t
+weaver.ini

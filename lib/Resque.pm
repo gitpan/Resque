@@ -1,6 +1,6 @@
 package Resque;
 {
-  $Resque::VERSION = '0.02';
+  $Resque::VERSION = '0.03';
 }
 use Any::Moose;
 use Any::Moose '::Util::TypeConstraints';
@@ -168,7 +168,7 @@ Resque - Redis-backed library for creating background jobs, placing them on mult
 
 =head1 VERSION
 
-version 0.02
+version 0.03
 
 =head1 SYNOPSIS
 
@@ -376,16 +376,43 @@ what you've fixed.
 
 =head1 TODO
 
-=for :list * A generic runner for attaching workers to queues.
-* Implement all or most of the callbacks the ruby library has.
-* Find a way to test worker fork and signal handling.
-* Improve docs.
+=over 4
+
+=item *
+
+A generic runner for attaching workers to queues.
+
+=item *
+
+Implement all or most of the callbacks the ruby library has.
+
+=item *
+
+Find a way to test worker fork and signal handling.
+
+=item *
+
+Improve docs.
+
+=back
 
 =head1 SEE ALSO
 
-=for :list * L<Gearman> 
-* L<TheSchwartz> 
-* L<Queue::Q4M>
+=over 4
+
+=item *
+
+L<Gearman> 
+
+=item *
+
+L<TheSchwartz> 
+
+=item *
+
+L<Queue::Q4M>
+
+=back
 
 =head1 AUTHOR
 
