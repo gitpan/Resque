@@ -59,7 +59,7 @@
          "web" : "https://github.com/diegok/resque-perl"
       }
    },
-   "version" : "0.04",
+   "version" : "0.05",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
