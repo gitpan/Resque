@@ -1,6 +1,6 @@
 package Resque::Worker;
 {
-  $Resque::Worker::VERSION = '0.05';
+  $Resque::Worker::VERSION = '0.06';
 }
 use Any::Moose;
 with 'Resque::Encoder';
@@ -357,7 +357,7 @@ sub find {
 
 sub all {
     my $self = shift;
-    my @w = grep {$_} map { $self->find($_) } $self->redis->smembers( $self->key('workers') );
+    my @w = grep {$_} map { $self->find($_) } @{ $self->redis->smembers( $self->key('workers') ) };
     return wantarray ? @w : \@w;
 }
 
@@ -378,7 +378,7 @@ Resque::Worker - Does the hard work of babysitting Resque::Job's
 
 =head1 VERSION
 
-version 0.05
+version 0.06
 
 =head1 ATTRIBUTES
 

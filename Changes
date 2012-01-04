@@ -1,3 +1,10 @@
+0.06      2012-01-04 16:36:08 Europe/Madrid
+
+    - Replaced dependency on Redis for RedisDB
+    - Handle redis re-connection thank's to RedisDB
+    - More tests on workerland
+    - Stop requiring 5.10 on test libs
+
 0.05      2012-01-03 20:30:46 Europe/Madrid
 
     - Relaxed regex to catch pid's of running workers

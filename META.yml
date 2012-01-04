@@ -7,7 +7,6 @@ build_requires:
   File::Temp: 0
   Test::More: 0.96
   base: 0
-  perl: 5.10.1
   warnings: 0
 configure_requires:
   ExtUtils::MakeMaker: 6.30
@@ -25,7 +24,7 @@ requires:
   JSON: 0
   List::MoreUtils: 0
   POSIX: 0
-  Redis: 0
+  RedisDB: 0
   Scalar::Util: 0
   Sys::Hostname: 0
   Try::Tiny: 0
@@ -36,7 +35,7 @@ resources:
   bugtracker: https://github.com/diegok/resque-perl/issues
   homepage: https://github.com/diegok/resque-perl
   repository: https://github.com/diegok/resque-perl.git
-version: 0.05
+version: 0.06
 x_Dist_Zilla:
   plugins:
     -

@@ -32,7 +32,7 @@ my %WriteMakefileArgs = (
     "JSON" => 0,
     "List::MoreUtils" => 0,
     "POSIX" => 0,
-    "Redis" => 0,
+    "RedisDB" => 0,
     "Scalar::Util" => 0,
     "Sys::Hostname" => 0,
     "Try::Tiny" => 0,
@@ -40,7 +40,7 @@ my %WriteMakefileArgs = (
     "overload" => 0,
     "strict" => 0
   },
-  "VERSION" => "0.05",
+  "VERSION" => "0.06",
   "test" => {
     "TESTS" => "t/*.t"
   }
