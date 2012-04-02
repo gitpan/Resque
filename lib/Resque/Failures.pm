@@ -1,6 +1,6 @@
 package Resque::Failures;
 {
-  $Resque::Failures::VERSION = '0.06';
+  $Resque::Failures::VERSION = '0.07';
 }
 use Any::Moose;
 with 'Resque::Encoder';
@@ -91,7 +91,7 @@ Resque::Failures
 
 =head1 VERSION
 
-version 0.06
+version 0.07
 
 =head1 ATTRIBUTES
 

@@ -1,33 +1,35 @@
 package Resque;
 {
-  $Resque::VERSION = '0.06';
+  $Resque::VERSION = '0.07';
 }
 use Any::Moose;
 use Any::Moose '::Util::TypeConstraints';
 
 # ABSTRACT: Redis-backed library for creating background jobs, placing them on multiple queues, and processing them later.
 
-use RedisDB;
+use Redis;
 use Resque::Job;
 use Resque::Worker;
 use Resque::Failures;
 
 
 subtype 'Sugar::Redis' 
-    => as class_type('RedisDB');
+    => as class_type('Redis');
 coerce 'Sugar::Redis' 
     => from 'Str' 
-    => via { 
-        my ( $host, $port ) = split /:/;
-        RedisDB->new( host => $host, port => $port ) 
-    };
+    => via { Redis->new( 
+        server    => $_, 
+        reconnect => 60, 
+        every     => 250, 
+        encoding  => undef 
+    )};
 
 has redis => (
     is      => 'ro',
     lazy    => 1,
     coerce  => 1,
     isa     => 'Sugar::Redis',
-    default => sub { RedisDB->new }
+    default => sub { Redis->new }
 );
 
 has namespace => ( is => 'rw', default => sub { 'resque' } );
@@ -81,8 +83,8 @@ sub peek {
 
 sub queues {
     my $self = shift;
-    my $queues = $self->redis->smembers( $self->key('queues') );
-    return wantarray ? @$queues : $queues;
+    my @queues = $self->redis->smembers( $self->key('queues') );
+    return wantarray ? @queues : \@queues;
 }
 
 sub remove_queue {
@@ -104,7 +106,7 @@ sub mass_dequeue {
         $removed += $self->redis->lrem( $queue, 0, $self->new_job($target)->encode );
     }
     else {
-        for my $item ( @{ $self->redis->lrange( $queue, 0, -1 ) } ) {
+        for my $item ( $self->redis->lrange( $queue, 0, -1 ) ) {
             if ( $self->new_job( $item )->class eq $target->{class} ) {
                 $removed += $self->redis->lrem( $queue, 0, $item );
             }
@@ -133,8 +135,8 @@ sub key {
 
 sub keys {
     my $self = shift;
-    my $keys = $self->redis->keys( $self->key('*') );
-    return wantarray ? @$keys : $keys;
+    my @keys = $self->redis->keys( $self->key('*') );
+    return wantarray ? @keys : \@keys;
 }
 
 sub flush_namespace {
@@ -148,8 +150,8 @@ sub flush_namespace {
 sub list_range {
     my ( $self, $key, $start, $count ) = @_;
     my $stop = $count > 0 ? $start + $count - 1 : $count;
-    my $items = $self->redis->lrange( $key, $start, $stop );
-    return $items;
+    my @items =  $self->redis->lrange( $key, $start, $stop );
+    return \@items;
 }
 
 # Used internally to keep track of which queues we've created.
@@ -171,11 +173,11 @@ Resque - Redis-backed library for creating background jobs, placing them on mult
 
 =head1 VERSION
 
-version 0.06
+version 0.07
 
 =head1 SYNOPSIS
 
-First you create a Resque instance where you configure the L<RedisDB> backend and then you can
+First you create a Resque instance where you configure the L<Redis> backend and then you can
 start sending jobs to be done by workers:
 
     use Resque;
@@ -237,7 +239,7 @@ A lot more about Resque can be read on the original blog post: L<http://github.c
 =head2 redis
 
 Redis instance for this Resque instance.
-Accept a L<RedisDB> object or string. When a string is
+Accept a Redis object or string. When a string is
 passed in, it will be used as Redis server argument.
 
 =head2 namespace

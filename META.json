@@ -27,7 +27,7 @@
             "JSON" : 0,
             "List::MoreUtils" : 0,
             "POSIX" : 0,
-            "RedisDB" : 0,
+            "Redis" : 0,
             "Scalar::Util" : 0,
             "Sys::Hostname" : 0,
             "Try::Tiny" : 0,
@@ -58,7 +58,7 @@
          "web" : "https://github.com/diegok/resque-perl"
       }
    },
-   "version" : "0.06",
+   "version" : "0.07",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
