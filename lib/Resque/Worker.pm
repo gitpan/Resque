@@ -1,6 +1,6 @@
 package Resque::Worker;
 {
-  $Resque::Worker::VERSION = '0.07';
+  $Resque::Worker::VERSION = '0.08';
 }
 use Any::Moose;
 with 'Resque::Encoder';
@@ -9,13 +9,14 @@ use Resque::Stat;
 use POSIX ":sys_wait_h";
 use Sys::Hostname;
 use Scalar::Util qw(blessed weaken);
-use List::MoreUtils qw{ uniq any };
+use List::MoreUtils qw(uniq any);
+use Time::HiRes qw(sleep);
 use DateTime;
 use Try::Tiny;
 
 # ABSTRACT: Does the hard work of babysitting Resque::Job's
 
-use overload 
+use overload
     '""' => \&_string,
     '==' => \&_is_equal,
     'eq' => \&_is_equal;
@@ -51,15 +52,16 @@ has child    => ( is => 'rw' );
 has shutdown => ( is => 'rw', default => sub{0} );
 
 has paused   => ( is => 'rw', default => sub{0} );
+
 has interval => ( is => 'rw', default => sub{5} );
 
 sub pause           { $_[0]->paused(1) }
 
 sub unpause         { $_[0]->paused(0) }
 
-sub shutdown_please { 
+sub shutdown_please {
     print "Shutting down...\n";
-    $_[0]->shutdown(1); 
+    $_[0]->shutdown(1);
 }
 
 sub shutdown_now    { $_[0]->shutdown_please && $_[0]->kill_child }
@@ -73,10 +75,10 @@ sub work {
             $self->work_tick($job);
         }
         elsif( $self->interval ) {
-            my $status = $self->paused ? "Paused" : 'Waiting for ' . join( ', ', @{$self->queues} ); 
+            my $status = $self->paused ? "Paused" : 'Waiting for ' . join( ', ', @{$self->queues} );
             $self->procline( $status );
             $self->log( $status );
-            sleep $self->interval;
+            sleep( $self->interval );
         }
     }
     $self->unregister_worker;
@@ -144,9 +146,9 @@ sub add_queue {
 sub del_queue {
     my ( $self, $queue ) = @_;
     return unless $queue;
-    
-    return 
-    @{$self->queues} 
+
+    return
+    @{$self->queues}
            -
     @{$self->queues( [ grep {$_} map { $_ eq $queue ? undef : $_ } @{$self->queues} ] )};
 }
@@ -173,8 +175,8 @@ sub reserve {
 
 sub working_on {
     my ( $self, $job ) = @_;
-    $self->redis->set( 
-        $self->key( worker => $self->id ), 
+    $self->redis->set(
+        $self->key( worker => $self->id ),
         $self->encoder->encode({
             queue   => $job->queue,
             run_at  => DateTime->now->strftime("%Y/%m/%d %H:%M:%S %Z"),
@@ -290,10 +292,10 @@ sub unregister_worker {
         if ( %$hr ) {
             # Ensure the proper worker is attached to this job, even if
             # it's not the precise instance that died.
-            my $job = $self->resque->new_job({ 
+            my $job = $self->resque->new_job({
                 worker  => $self,
-                queue   => $hr->{queue}, 
-                payload => $hr->{payload} 
+                queue   => $hr->{queue},
+                payload => $hr->{payload}
             });
             $job->fail( 'Dirty exit' );
         }
@@ -347,7 +349,7 @@ sub find {
     my ( $self, $worker_id ) = @_;
     if ( $self->exists( $worker_id ) ) {
         my @queues = split ',', (split( ':', $worker_id))[-1];
-        return __PACKAGE__->new( 
+        return __PACKAGE__->new(
             resque => $self->resque,
             queues => \@queues,
             id     => $worker_id
@@ -378,7 +380,7 @@ Resque::Worker - Does the hard work of babysitting Resque::Job's
 
 =head1 VERSION
 
-version 0.07
+version 0.08
 
 =head1 ATTRIBUTES
 
@@ -408,10 +410,10 @@ on work().
 
 =head2 cant_fork
 
-Set it to a true value to stop this worker from fork jobs. 
+Set it to a true value to stop this worker from fork jobs.
 
-By default, the worker will fork the job out and control the 
-children process. This make the worker more resilient to 
+By default, the worker will fork the job out and control the
+children process. This make the worker more resilient to
 memory leaks.
 
 =head2 child
@@ -425,6 +427,10 @@ When true, this worker will shutdown after finishing current job.
 =head2 paused
 
 When true, this worker won't proccess more jobs till false.
+
+=head2 interval
+
+Float representing the polling frequency. The default is 5 seconds, but for a semi-active app you may want to use a smaller value.
 
 =head1 METHODS
 
@@ -485,7 +491,7 @@ Pull the next job to be precessed.
 
 =head2 working_on
 
-Set worker and working status on the given L<Resque::Job>. 
+Set worker and working status on the given L<Resque::Job>.
 
 =head2 done_working
 
@@ -493,7 +499,7 @@ Inform the backend this worker has done its current job
 
 =head2 started
 
-What time did this worker start? 
+What time did this worker start?
 Returns an instance of DateTime.
 
 TODO: not working in this release. This is returning

@@ -35,12 +35,13 @@ my %WriteMakefileArgs = (
     "Redis" => 0,
     "Scalar::Util" => 0,
     "Sys::Hostname" => 0,
+    "Time::HiRes" => 0,
     "Try::Tiny" => 0,
     "UNIVERSAL::require" => 0,
     "overload" => 0,
     "strict" => 0
   },
-  "VERSION" => "0.07",
+  "VERSION" => "0.08",
   "test" => {
     "TESTS" => "t/*.t"
   }

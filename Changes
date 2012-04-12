@@ -1,3 +1,8 @@
+0.08      2012-04-12 17:05:17 Europe/Madrid
+
+    - Worker interval attribute accept floating seconds (Time::HiRes::sleep).
+    - Worker interval attribute is documented now.
+
 0.07      2012-04-03 00:39:06 Europe/Madrid
 
     - Back to Redis dependency
