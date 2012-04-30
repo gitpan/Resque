@@ -14,6 +14,7 @@ my %WriteMakefileArgs = (
   "BUILD_REQUIRES" => {
     "Exporter" => 0,
     "File::Temp" => 0,
+    "IPC::Cmd" => 0,
     "Test::More" => "0.96",
     "base" => 0,
     "warnings" => 0
@@ -41,7 +42,7 @@ my %WriteMakefileArgs = (
     "overload" => 0,
     "strict" => 0
   },
-  "VERSION" => "0.08",
+  "VERSION" => "0.09",
   "test" => {
     "TESTS" => "t/*.t"
   }

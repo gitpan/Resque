@@ -1,6 +1,6 @@
 package Resque::Failures;
 {
-  $Resque::Failures::VERSION = '0.08';
+  $Resque::Failures::VERSION = '0.09';
 }
 use Any::Moose;
 with 'Resque::Encoder';
@@ -8,18 +8,18 @@ with 'Resque::Encoder';
 use UNIVERSAL::require;
 use Carp;
 
-has resque => ( 
-    is       => 'ro', 
-    required => 1, 
+has resque => (
+    is       => 'ro',
+    required => 1,
     handles  => [qw/ redis key /]
 );
 
 has failure_class => (
-    is => 'rw', 
-    lazy => 1, 
-    default => sub { 
+    is => 'rw',
+    lazy => 1,
+    default => sub {
         'Resque::Failure::Redis'->require || confess $@;
-        'Resque::Failure::Redis'; 
+        'Resque::Failure::Redis';
     },
     trigger => sub {
         my ( $self, $class ) = @_;
@@ -59,16 +59,16 @@ sub clear {
 
 sub requeue {
     my ( $self, $index ) = @_;
-    my $item = $self->all($index);
+    my ($item) = $self->all($index, 1);
     $item->{retried_at} = DateTime->now->strftime("%Y/%m/%d %H:%M:%S");
     $self->redis->lset(
-        $self->key('failed'), $index, 
+        $self->key('failed'), $index,
         $self->encoder->encode($item)
     );
     $self->resque->push(
-        $item->{queue} => { 
-            class => $item->{payload}{class}, 
-            args  => $item->{payload}{args}, 
+        $item->{queue} => {
+            class => $item->{payload}{class},
+            args  => $item->{payload}{args},
     });
 }
 
@@ -91,7 +91,7 @@ Resque::Failures
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 ATTRIBUTES
 
@@ -129,7 +129,18 @@ Remove all failures.
 
 =head2 requeue
 
+Requeue by index number.
+
+Failure will be updated to note retried date.
+
 =head2 remove
+
+Remove failure by index number in failures queue.
+
+Please note that, when you remove some index, all
+sucesive ones will move left, so index will decrese
+one. If you want to remove several ones start removing
+from the rightmost one.
 
 =head1 AUTHOR
 

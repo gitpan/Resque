@@ -1,6 +1,6 @@
 package Resque;
 {
-  $Resque::VERSION = '0.08';
+  $Resque::VERSION = '0.09';
 }
 use Any::Moose;
 use Any::Moose '::Util::TypeConstraints';
@@ -173,7 +173,7 @@ Resque - Redis-backed library for creating background jobs, placing them on mult
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 SYNOPSIS
 

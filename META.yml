@@ -5,6 +5,7 @@ author:
 build_requires:
   Exporter: 0
   File::Temp: 0
+  IPC::Cmd: 0
   Test::More: 0.96
   base: 0
   warnings: 0
@@ -36,7 +37,7 @@ resources:
   bugtracker: https://github.com/diegok/resque-perl/issues
   homepage: https://github.com/diegok/resque-perl
   repository: https://github.com/diegok/resque-perl.git
-version: 0.08
+version: 0.09
 x_Dist_Zilla:
   plugins:
     -
