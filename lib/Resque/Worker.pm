@@ -1,6 +1,6 @@
 package Resque::Worker;
 {
-  $Resque::Worker::VERSION = '0.10';
+  $Resque::Worker::VERSION = '0.11';
 }
 use Any::Moose;
 with 'Resque::Encoder';
@@ -317,7 +317,7 @@ sub worker_pids {
                 ? 'ps -A -o pid,args'
                 : 'ps -A -o pid,command';
 
-    for ( split "\n", `$ps_command | grep resque | grep -v resque-web` ) {
+    for ( split "\n", `$ps_command | grep resque | grep -v resque-web | grep -v grep` ) {
         if ( m/^\s*(\d+)\s(.+)$/ ) {
             push @pids, $1;
         }
@@ -385,7 +385,7 @@ Resque::Worker - Does the hard work of babysitting Resque::Job's
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 ATTRIBUTES
 
