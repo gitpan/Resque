@@ -1,11 +1,11 @@
 package Resque::Encoder;
 {
-  $Resque::Encoder::VERSION = '0.11';
+  $Resque::Encoder::VERSION = '0.12';
 }
-use Any::Moose 'Role';
+use Moose::Role;
 use JSON;
 
-# ABSTRACT: Any::Moose role for encoding Resque structures
+# ABSTRACT: Moose role for encoding Resque structures
 
 has encoder => ( is => 'ro', default => sub { JSON->new->utf8 } );
 
@@ -16,11 +16,11 @@ __END__
 
 =head1 NAME
 
-Resque::Encoder - Any::Moose role for encoding Resque structures
+Resque::Encoder - Moose role for encoding Resque structures
 
 =head1 VERSION
 
-version 0.11
+version 0.12
 
 =head1 ATTRIBUTES
 

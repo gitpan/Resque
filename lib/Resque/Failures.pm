@@ -1,11 +1,12 @@
 package Resque::Failures;
 {
-  $Resque::Failures::VERSION = '0.11';
+  $Resque::Failures::VERSION = '0.12';
 }
-use Any::Moose;
+use Moose;
 with 'Resque::Encoder';
+# ABSTRACT: Class for managing Resque failures
 
-use UNIVERSAL::require;
+use Class::Load qw(load_class);
 use Carp;
 
 has resque => (
@@ -18,12 +19,12 @@ has failure_class => (
     is => 'rw',
     lazy => 1,
     default => sub {
-        'Resque::Failure::Redis'->require || confess $@;
+        load_class('Resque::Failure::Redis');
         'Resque::Failure::Redis';
     },
     trigger => sub {
         my ( $self, $class ) = @_;
-        $class->require or confess $@;
+        load_class($class);
     }
 );
 
@@ -87,11 +88,11 @@ __END__
 
 =head1 NAME
 
-Resque::Failures
+Resque::Failures - Class for managing Resque failures
 
 =head1 VERSION
 
-version 0.11
+version 0.12
 
 =head1 ATTRIBUTES
 

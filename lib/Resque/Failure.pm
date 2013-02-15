@@ -1,8 +1,8 @@
 package Resque::Failure;
 {
-  $Resque::Failure::VERSION = '0.11';
+  $Resque::Failure::VERSION = '0.12';
 }
-use Any::Moose 'Role';
+use Moose::Role;
 with 'Resque::Encoder';
 
 # ABSTRACT: Role to be consumed by any failure class.
@@ -50,7 +50,8 @@ has exception => (
 );
 
 has error     => ( is => 'rw', isa => 'Str', required => 1 );
-has backtrace => ( is => 'rw', isa => 'Str' ); 
+# ruby 'resque-web' expect backtrace is array.
+has backtrace => ( is => 'rw', isa => 'ArrayRef[Str]' );
 
 around error => sub {
     my $orig = shift;
@@ -59,9 +60,16 @@ around error => sub {
     return $self->$orig() unless @_;
 
     my ( $value, @stack ) = split "\n", shift;
-    $self->backtrace( join "\n", @stack );
+    $self->backtrace( \@stack );
     return $self->$orig($value);
 };
+
+sub BUILD {
+    my $self = shift;
+    if ( (my $error = $self->error) =~ /\n/ ) {
+        $self->error($error);
+    }
+}
 
 sub stringify { $_[0]->error }
 
@@ -76,9 +84,11 @@ Resque::Failure - Role to be consumed by any failure class.
 
 =head1 VERSION
 
-version 0.11
+version 0.12
 
 =head1 METHODS
+
+=head2 BUILD
 
 =head2 stringify
 

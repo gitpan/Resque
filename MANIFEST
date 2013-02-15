@@ -13,6 +13,8 @@ lib/Resque/Failure.pm
 lib/Resque/Failure/Redis.pm
 lib/Resque/Failures.pm
 lib/Resque/Job.pm
+lib/Resque/Pluggable.pm
+lib/Resque/Plugin.pm
 lib/Resque/Stat.pm
 lib/Resque/Worker.pm
 t/00-load.t
@@ -20,6 +22,11 @@ t/01-namespace.t
 t/02-queue.t
 t/03-worker.t
 t/04-failure.t
+t/05-plugin.t
+t/lib/Resque/Plugin/Duck.pm
+t/lib/Resque/Plugin/Duck/Talk.pm
+t/lib/Resque/Plugin/Duck/Walk.pm
+t/lib/Resque/Plugin/Empty.pm
 t/lib/Test/FailWorker.pm
 t/lib/Test/SpawnRedisServer.pm
 t/lib/Test/Worker.pm

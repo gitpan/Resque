@@ -1,14 +1,15 @@
 package Resque::Job;
 {
-  $Resque::Job::VERSION = '0.11';
+  $Resque::Job::VERSION = '0.12';
 }
-use Any::Moose;
-use Any::Moose '::Util::TypeConstraints';
+use Moose;
+use Moose::Util::TypeConstraints;
 with 'Resque::Encoder';
 
 # ABSTRACT: Resque job container
 
 use overload '""' => \&stringify;
+use Class::Load qw(load_class);
 
 has resque  => ( 
     is      => 'rw', 
@@ -75,7 +76,7 @@ sub queue_from_class {
 
 sub perform {
     my $self = shift;
-    $self->class->require || confess $@;
+    load_class($self->class);
     $self->class->can('perform') 
         || confess $self->class . " doesn't know how to perform";
 
@@ -127,7 +128,7 @@ Resque::Job - Resque job container
 
 =head1 VERSION
 
-version 0.11
+version 0.12
 
 =head1 ATTRIBUTES
 
