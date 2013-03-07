@@ -1,6 +1,6 @@
 package Resque::Job;
 {
-  $Resque::Job::VERSION = '0.12';
+  $Resque::Job::VERSION = '0.13';
 }
 use Moose;
 use Moose::Util::TypeConstraints;
@@ -128,7 +128,7 @@ Resque::Job - Resque job container
 
 =head1 VERSION
 
-version 0.12
+version 0.13
 
 =head1 ATTRIBUTES
 

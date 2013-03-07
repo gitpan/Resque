@@ -1,6 +1,6 @@
 package Resque::Failure::Redis;
 {
-  $Resque::Failure::Redis::VERSION = '0.12';
+  $Resque::Failure::Redis::VERSION = '0.13';
 }
 use Moose;
 with 'Resque::Failure';
@@ -33,7 +33,7 @@ Resque::Failure::Redis - Redis backend for worker failures
 
 =head1 VERSION
 
-version 0.12
+version 0.13
 
 =head1 METHODS
 

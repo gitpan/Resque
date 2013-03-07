@@ -30,6 +30,7 @@ my %WriteMakefileArgs = (
     "Carp" => 0,
     "Class::Load" => 0,
     "DateTime" => 0,
+    "FindBin" => 0,
     "JSON" => 0,
     "List::MoreUtils" => 0,
     "Moose" => 0,
@@ -47,7 +48,7 @@ my %WriteMakefileArgs = (
     "overload" => 0,
     "strict" => 0
   },
-  "VERSION" => "0.12",
+  "VERSION" => "0.13",
   "test" => {
     "TESTS" => "t/*.t"
   }
