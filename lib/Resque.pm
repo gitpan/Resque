@@ -1,6 +1,6 @@
 package Resque;
 {
-  $Resque::VERSION = '0.14';
+  $Resque::VERSION = '0.15';
 }
 use Moose;
 use Moose::Util::TypeConstraints;
@@ -174,7 +174,7 @@ Resque - Redis-backed library for creating background jobs, placing them on mult
 
 =head1 VERSION
 
-version 0.14
+version 0.15
 
 =head1 SYNOPSIS
 
@@ -244,14 +244,17 @@ Accept a Redis object or string. When a string is
 passed in, it will be used as Redis server argument.
 
 =head2 namespace
+
 This is useful to run multiple queue systems with the same Redis backend.
 
 By default 'resque' is used.
 
 =head2 failures
+
 Failures handler. See L<Resque::Failures>.
 
 =head2 worker
+
 A L<Resque::Worker> on this resque instance.
 It can have plugin/roles applied. See L<Resque::Pluggable>.
 
@@ -272,11 +275,13 @@ Example
     $resque->push( archive => { class => 'Archive', args => [ 35, 'tar' ] } )
 
 =head2 pop
+
 Pops a job off a queue. Queue name should be a string.
 
 Returns a Resque::Job object.
 
 =head2 size
+
 Returns the size of a queue.
 Queue name should be a string.
 
@@ -296,9 +301,11 @@ To get the 3rd page of a 30 item, paginatied list one would use:
     $resque->peek('my_queue', 59, 30)
 
 =head2 queues
+
 Returns an array of all known Resque queues.
 
 =head2 remove_queue
+
 Given a queue name, completely deletes the queue.
 
 =head2 mass_dequeue
@@ -336,6 +343,7 @@ memory intensive, depending on the size of your queue, as it loads
 all jobs into an array before processing.
 
 =head2 new_job
+
 Build a L<Resque::Job> object on this system for the given
 hashref or string(payload for object).
 
@@ -343,10 +351,12 @@ L<Resque::Job> class can be extended thru roles/plugins.
 See L<Resque::Pluggable>.
 
 =head2 key
+
 Concatenate $self->namespace with the received array of names
 to build a redis key name for this resque instance.
 
 =head2 keys
+
 Returns an array of all known Resque keys in Redis. Redis' KEYS operation
 is O(N) for the keyspace, so be careful - this can be slow for big databases.
 
