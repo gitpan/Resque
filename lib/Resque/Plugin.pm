@@ -1,6 +1,6 @@
 package Resque::Plugin;
 {
-  $Resque::Plugin::VERSION = '0.13';
+  $Resque::Plugin::VERSION = '0.14';
 }
 use Moose();
 use Moose::Exporter;
@@ -38,7 +38,7 @@ Resque::Plugin - Syntactic sugar for Resque plugin's
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 METHODS
 

@@ -1,6 +1,6 @@
 package Resque::Worker;
 {
-  $Resque::Worker::VERSION = '0.13';
+  $Resque::Worker::VERSION = '0.14';
 }
 use Moose;
 with 'Resque::Encoder';
@@ -154,19 +154,10 @@ sub del_queue {
     @{$self->queues( [ grep {$_} map { $_ eq $queue ? undef : $_ } @{$self->queues} ] )};
 }
 
-
-sub next_queue {
-    my $self = shift;
-    if ( @{$self->queues} > 1 ) {
-        push @{$self->queues}, shift @{$self->queues};
-    }
-    return $self->queues->[-1];
-}
-
 sub reserve {
     my $self = shift;
     my $count = 0;
-    while ( my $queue = $self->next_queue ) {
+    for my $queue ( @{$self->queues} ) {
         if ( my $job = $self->resque->pop($queue) ) {
             return $job;
         }
@@ -386,7 +377,7 @@ Resque::Worker - Does the hard work of babysitting Resque::Job's
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 ATTRIBUTES
 
@@ -486,10 +477,6 @@ Add a queue this worker should listen to.
 =head2 del_queue
 
 Stop listening to the given queue.
-
-=head2 next_queue
-
-Circular iterator over queues().
 
 =head2 reserve
 
