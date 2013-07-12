@@ -1,6 +1,6 @@
 package Resque::Failure;
 {
-  $Resque::Failure::VERSION = '0.15';
+  $Resque::Failure::VERSION = '0.16';
 }
 use Moose::Role;
 with 'Resque::Encoder';
@@ -84,7 +84,7 @@ Resque::Failure - Role to be consumed by any failure class.
 
 =head1 VERSION
 
-version 0.15
+version 0.16
 
 =head1 METHODS
 

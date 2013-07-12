@@ -1,6 +1,6 @@
 package Resque::Worker;
 {
-  $Resque::Worker::VERSION = '0.15';
+  $Resque::Worker::VERSION = '0.16';
 }
 use Moose;
 with 'Resque::Encoder';
@@ -98,8 +98,17 @@ sub work_tick {
         #while ( ! waitpid( $pid, WNOHANG ) ) { } # non-blocking has sense?
         waitpid( $pid, 0 );
         $self->log( "Forked job($pid) exited with status $?" );
+        
+        if ($?) {
+            $job->fail("Exited with status $?");
+            $self->failed(1);
+        }
     }
     else {
+        undef $SIG{TERM};
+        undef $SIG{INT};
+        undef $SIG{QUIT};
+        
         $self->procline( sprintf( "Processing %s since %s", $job->queue, $timestamp ) );
         $self->perform($job);
         exit(0) unless $self->cant_fork;
@@ -128,6 +137,7 @@ sub perform {
 sub kill_child {
     my $self = shift;
     return unless $self->child;
+    
     if ( kill 0, $self->child ) {
         $self->log( "Killing my child: " . $self->child );
         kill 9, $self->child;
@@ -377,7 +387,7 @@ Resque::Worker - Does the hard work of babysitting Resque::Job's
 
 =head1 VERSION
 
-version 0.15
+version 0.16
 
 =head1 ATTRIBUTES
 

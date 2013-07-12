@@ -1,6 +1,11 @@
+0.16      2013-07-12 19:10:21 Europe/Madrid
+
+    - Watch forked jobs exit status (Wolfgang Kinkeldei)
+
 0.15      2013-04-26 16:38:40 Europe/Madrid
 
     - Docs cleanup
+    - Allow custom job classes (Michal Sedlák)
 
 0.14      2013-04-26 15:04:00 Europe/Madrid
 

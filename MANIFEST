@@ -28,6 +28,7 @@ t/lib/Resque/Plugin/Duck/Talk.pm
 t/lib/Resque/Plugin/Duck/Walk.pm
 t/lib/Resque/Plugin/Empty.pm
 t/lib/Test/FailWorker.pm
+t/lib/Test/LongRunningWorker.pm
 t/lib/Test/SpawnRedisServer.pm
 t/lib/Test/Worker.pm
 t/release-pod-coverage.t

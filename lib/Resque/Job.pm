@@ -1,6 +1,6 @@
 package Resque::Job;
 {
-  $Resque::Job::VERSION = '0.15';
+  $Resque::Job::VERSION = '0.16';
 }
 use Moose;
 use Moose::Util::TypeConstraints;
@@ -11,14 +11,14 @@ with 'Resque::Encoder';
 use overload '""' => \&stringify;
 use Class::Load qw(load_class);
 
-has resque  => ( 
-    is      => 'rw', 
+has resque  => (
+    is      => 'rw',
     handles => [qw/ redis /],
-    default => sub { confess "This Resque::Job isn't associated to any Resque system yet!" } 
+    default => sub { confess "This Resque::Job isn't associated to any Resque system yet!" }
 );
 
-has worker  => ( 
-    is      => 'rw', 
+has worker  => (
+    is      => 'rw',
     lazy    => 1,
     default   => sub { $_[0]->resque->worker },
     predicate => 'has_worker'
@@ -26,20 +26,20 @@ has worker  => (
 
 has class   => ( is => 'rw', lazy => 1, default => sub { confess "This job needs a class to do some work." } );
 
-has queue   => ( 
-    is        => 'rw', lazy => 1, 
-    default   => \&queue_from_class, 
+has queue   => (
+    is        => 'rw', lazy => 1,
+    default   => \&queue_from_class,
     predicate => 'queued'
 );
 
 has args    => ( is => 'rw', isa => 'ArrayRef', default => sub {[]} );
 
-coerce 'HashRef' 
-    => from 'Str' 
+coerce 'HashRef'
+    => from 'Str'
     => via { JSON->new->utf8->decode($_) };
-has payload => ( 
-    is   => 'ro', 
-    isa  => 'HashRef', 
+has payload => (
+    is   => 'ro',
+    isa  => 'HashRef',
     coerce => 1,
     lazy => 1,
     default => sub {{
@@ -60,10 +60,10 @@ sub encode {
 
 sub stringify {
     my $self = shift;
-    sprintf( "(Job{%s} | %s | %s)", 
-        $self->queue, 
-        $self->class, 
-        $self->encoder->encode( $self->args ) 
+    sprintf( "(Job{%s} | %s | %s)",
+        $self->queue,
+        $self->class,
+        $self->encoder->encode( $self->args )
     );
 }
 
@@ -77,11 +77,11 @@ sub queue_from_class {
 sub perform {
     my $self = shift;
     load_class($self->class);
-    $self->class->can('perform') 
+    $self->class->can('perform')
         || confess $self->class . " doesn't know how to perform";
 
     no strict 'refs';
-    &{$self->class . '::perform'}($self); 
+    &{$self->class . '::perform'}($self);
 }
 
 sub enqueue {
@@ -103,7 +103,7 @@ sub fail {
 
     my $exception = 'Resque::Failure::Job';
     if ( ref $error && ref $error eq 'ARRAY' ) {
-        ( $exception, $error ) = @$error; 
+        ( $exception, $error ) = @$error;
     }
 
     $self->resque->throw(
@@ -118,7 +118,6 @@ sub fail {
 
 __PACKAGE__->meta->make_immutable();
 
-
 __END__
 =pod
 
@@ -128,7 +127,7 @@ Resque::Job - Resque job container
 
 =head1 VERSION
 
-version 0.15
+version 0.16
 
 =head1 ATTRIBUTES
 
@@ -188,10 +187,10 @@ See Rescue::push().
 
 Remove this job from resque using the most restrictive
 form of Resque::mass_dequeue.
-This method will remove all jobs matching this 
+This method will remove all jobs matching this
 object queue, class and args.
 
-See Resque::mass_dequeue() for massive destruction. 
+See Resque::mass_dequeue() for massive destruction.
 
 =head2 fail
 
