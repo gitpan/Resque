@@ -1,6 +1,6 @@
 package Resque::Job;
 {
-  $Resque::Job::VERSION = '0.16';
+  $Resque::Job::VERSION = '0.17';
 }
 use Moose;
 use Moose::Util::TypeConstraints;
@@ -119,7 +119,10 @@ sub fail {
 __PACKAGE__->meta->make_immutable();
 
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -127,7 +130,7 @@ Resque::Job - Resque job container
 
 =head1 VERSION
 
-version 0.16
+version 0.17
 
 =head1 ATTRIBUTES
 
@@ -176,7 +179,7 @@ Normalize class name to be used as queue name.
 =head2 perform
 
 Load job class and call perform() on it.
-This job objet will be passed as the only argument.
+This job object will be passed as the only argument.
 
 =head2 enqueue
 
@@ -208,4 +211,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

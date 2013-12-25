@@ -1,6 +1,6 @@
 package Resque::Failure::Redis;
 {
-  $Resque::Failure::Redis::VERSION = '0.16';
+  $Resque::Failure::Redis::VERSION = '0.17';
 }
 use Moose;
 with 'Resque::Failure';
@@ -25,7 +25,10 @@ sub save {
 __PACKAGE__->meta->make_immutable;
 
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -33,7 +36,7 @@ Resque::Failure::Redis - Redis backend for worker failures
 
 =head1 VERSION
 
-version 0.16
+version 0.17
 
 =head1 METHODS
 
@@ -53,4 +56,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

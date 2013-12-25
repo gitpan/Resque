@@ -1,6 +1,6 @@
 package Resque::Worker;
 {
-  $Resque::Worker::VERSION = '0.16';
+  $Resque::Worker::VERSION = '0.17';
 }
 use Moose;
 with 'Resque::Encoder';
@@ -377,9 +377,11 @@ sub exists {
 
 __PACKAGE__->meta->make_immutable();
 
-
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -387,7 +389,7 @@ Resque::Worker - Does the hard work of babysitting Resque::Job's
 
 =head1 VERSION
 
-version 0.16
+version 0.17
 
 =head1 ATTRIBUTES
 
@@ -619,4 +621,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

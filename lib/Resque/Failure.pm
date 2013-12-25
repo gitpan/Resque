@@ -1,6 +1,6 @@
 package Resque::Failure;
 {
-  $Resque::Failure::VERSION = '0.16';
+  $Resque::Failure::VERSION = '0.17';
 }
 use Moose::Role;
 with 'Resque::Encoder';
@@ -76,7 +76,10 @@ sub stringify { $_[0]->error }
 1;
 
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -84,7 +87,7 @@ Resque::Failure - Role to be consumed by any failure class.
 
 =head1 VERSION
 
-version 0.16
+version 0.17
 
 =head1 METHODS
 
@@ -104,4 +107,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

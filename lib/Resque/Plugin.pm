@@ -1,6 +1,6 @@
 package Resque::Plugin;
 {
-  $Resque::Plugin::VERSION = '0.16';
+  $Resque::Plugin::VERSION = '0.17';
 }
 use Moose();
 use Moose::Exporter;
@@ -30,7 +30,10 @@ sub _build_default {
 1;
 
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -38,7 +41,7 @@ Resque::Plugin - Syntactic sugar for Resque plugin's
 
 =head1 VERSION
 
-version 0.16
+version 0.17
 
 =head1 METHODS
 
@@ -57,4 +60,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

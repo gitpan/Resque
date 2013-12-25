@@ -1,10 +1,11 @@
 package Resque;
 {
-  $Resque::VERSION = '0.16';
+  $Resque::VERSION = '0.17';
 }
 use Moose;
 use Scalar::Util 'blessed';
 use Moose::Util::TypeConstraints;
+use Data::Compare;
 with 'Resque::Pluggable';
 
 # ABSTRACT: Redis-backed library for creating background jobs, placing them on multiple queues, and processing them later.
@@ -104,14 +105,14 @@ sub mass_dequeue {
 
     my $queue = $self->key( queue => $target->{queue} );
     my $removed = 0;
-    if ( exists $target->{args} ) {
-        $removed += $self->redis->lrem( $queue, 0, $self->new_job($target)->encode );
-    }
-    else {
-        for my $item ( $self->redis->lrange( $queue, 0, -1 ) ) {
-            if ( $self->new_job( $item )->class eq $target->{class} ) {
-                $removed += $self->redis->lrem( $queue, 0, $item );
+    for my $item ( $self->redis->lrange( $queue, 0, -1 ) ) {
+        my $job_item = $self->new_job( $item );
+        if ( $job_item->class eq $target->{class} ) {
+            if ( exists $target->{args} ) {
+                next unless Compare( $job_item->args, $target->{args} );
             }
+
+            $removed += $self->redis->lrem( $queue, 0, $item );
         }
     }
 
@@ -165,9 +166,11 @@ sub _watch_queue {
 
 __PACKAGE__->meta->make_immutable();
 
-
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -175,7 +178,7 @@ Resque - Redis-backed library for creating background jobs, placing them on mult
 
 =head1 VERSION
 
-version 0.16
+version 0.17
 
 =head1 SYNOPSIS
 
@@ -434,4 +437,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
