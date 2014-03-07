@@ -1,4 +1,8 @@
-0.17      2013-12-25 14:35:48 Europe/Madrid
+0.18      2014-03-07 22:41:44CET+0100 Europe/Madrid
+
+    - Coerce object exceptions into string (issue #14)
+
+0.17      2013-25-12 19:10:21 Europe/Madrid
 
     - Stop comparing encoded json as it's broken with hash randomization (issue #13)
 

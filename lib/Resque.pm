@@ -1,7 +1,5 @@
 package Resque;
-{
-  $Resque::VERSION = '0.17';
-}
+$Resque::VERSION = '0.18';
 use Moose;
 use Scalar::Util 'blessed';
 use Moose::Util::TypeConstraints;
@@ -178,7 +176,7 @@ Resque - Redis-backed library for creating background jobs, placing them on mult
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 SYNOPSIS
 

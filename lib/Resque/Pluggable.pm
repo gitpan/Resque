@@ -1,7 +1,5 @@
 package Resque::Pluggable;
-{
-  $Resque::Pluggable::VERSION = '0.17';
-}
+$Resque::Pluggable::VERSION = '0.18';
 use Moose::Role;
 
 # ABSTRACT: Role to load Resque plugin's and and apply roles.
@@ -105,7 +103,7 @@ Resque::Pluggable - Role to load Resque plugin's and and apply roles.
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 ATTRIBUTES
 

@@ -1,7 +1,5 @@
 package Resque::Worker;
-{
-  $Resque::Worker::VERSION = '0.17';
-}
+$Resque::Worker::VERSION = '0.18';
 use Moose;
 with 'Resque::Encoder';
 
@@ -389,7 +387,7 @@ Resque::Worker - Does the hard work of babysitting Resque::Job's
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 ATTRIBUTES
 

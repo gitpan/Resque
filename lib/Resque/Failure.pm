@@ -1,7 +1,5 @@
 package Resque::Failure;
-{
-  $Resque::Failure::VERSION = '0.17';
-}
+$Resque::Failure::VERSION = '0.18';
 use Moose::Role;
 with 'Resque::Encoder';
 
@@ -9,6 +7,7 @@ with 'Resque::Encoder';
 
 use overload '""' => \&stringify;
 use DateTime;
+use Moose::Util::TypeConstraints;
 
 requires 'save';
 
@@ -49,7 +48,11 @@ has exception => (
     default => sub { 'Resque::Failure' }
 );
 
-has error     => ( is => 'rw', isa => 'Str', required => 1 );
+coerce 'Str'
+    => from 'Object'
+    => via {"$_"};
+
+has error     => ( is => 'rw', isa => 'Str', required => 1, coerce => 1 );
 # ruby 'resque-web' expect backtrace is array.
 has backtrace => ( is => 'rw', isa => 'ArrayRef[Str]' );
 
@@ -87,7 +90,7 @@ Resque::Failure - Role to be consumed by any failure class.
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 METHODS
 
